@@ -37,12 +37,12 @@ resource "kubernetes_deployment" "pgadmin" {
           image = "${var.pgadmin_image}"
           name  = "pgadmin"
           env {
-            "name" = "PGADMIN_DEFAULT_EMAIL"
-            "value" = "${var.pgadmin_email}"
+            name = "PGADMIN_DEFAULT_EMAIL"
+            value = "${var.pgadmin_email}"
           },
           {
-            "name" = "PGADMIN_DEFAULT_PASSWORD"
-            "value" = "${var.pgadmin_password}"
+            name = "PGADMIN_DEFAULT_PASSWORD"
+            value = "${var.pgadmin_password}"
           },
         }
       }
@@ -77,7 +77,7 @@ resource "kubernetes_ingress_v1" "pgadmin" {
   spec {
     ingress_class_name = "nginx"
     rule {
-      host = "${var.pgadmin_hostname}"
+      host = "${var.pgadmin_ingress_hostname}"
       http {
         path {
           backend {
