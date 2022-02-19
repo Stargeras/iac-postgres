@@ -5,3 +5,13 @@ module "postgres" {
     storage_class = "${var.storage_class}"
     postgres_namespace = "${var.postgres_namespace}"
 }
+
+module "pgadmin" {
+    source = "./module-pgadmin"
+    kubeconfig = "${var.kubeconfig}"
+    pgadmin_namespace = "${var.pgadmin_namespace}"
+    pgadmin_image = "${var.pgadmin_image}"
+    pgadmin_email = "${var.pgadmin_email}"
+    pgadmin_password = "${var.pgadmin_password}"
+    pgadmin_ingress_hostname = "${var.pgadmin_ingress_hostname}"
+}
