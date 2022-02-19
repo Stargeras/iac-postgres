@@ -39,11 +39,11 @@ resource "kubernetes_deployment" "pgadmin" {
           env {
             name = "PGADMIN_DEFAULT_EMAIL"
             value = "${var.pgadmin_email}"
-          },
-          {
+          }
+          env {
             name = "PGADMIN_DEFAULT_PASSWORD"
             value = "${var.pgadmin_password}"
-          },
+          }
         }
       }
     }
