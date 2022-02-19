@@ -36,16 +36,14 @@ resource "kubernetes_deployment" "pgadmin" {
         container {
           image = "${var.pgadmin_image}"
           name  = "pgadmin"
-          env = [
-            {
-              "name" = "PGADMIN_DEFAULT_EMAIL"
-              "value" = "${var.pgadmin_email}"
-            },
-            {
-              "name" = "PGADMIN_DEFAULT_PASSWORD"
-              "value" = "${var.pgadmin_password}"
-            },
-          ]
+          env {
+            "name" = "PGADMIN_DEFAULT_EMAIL"
+            "value" = "${var.pgadmin_email}"
+          },
+          {
+            "name" = "PGADMIN_DEFAULT_PASSWORD"
+            "value" = "${var.pgadmin_password}"
+          },
         }
       }
     }
