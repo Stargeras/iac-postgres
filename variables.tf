@@ -4,7 +4,15 @@ variable "kubeconfig" {
 }
 variable "postgres_password" {
     type = string
-    default = "postgres123"
+    default = "postgres"
+}
+variable "postgres_newuser_username" {
+    type = string
+    default = "admin"
+}
+variable "postgres_newuser_password" {
+    type = string
+    default = "admin"
 }
 variable "storage_class" {
     type = string
@@ -36,7 +44,7 @@ variable "pgadmin_email" {
 }
 variable "pgadmin_password" {
     type = string
-    default = "postgres123"
+    default = "admin"
 }
 variable "pgadmin_ingress_hostname" {
     type = string

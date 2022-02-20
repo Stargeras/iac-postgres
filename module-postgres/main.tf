@@ -19,4 +19,12 @@ resource "helm_release" "postgres" {
       name = "global.postgresql.auth.postgresPassword"
       value = "${var.postgres_password}"
   }
+  set {
+      name = "global.postgresql.auth.username"
+      value = "${var.postgres_newuser_username}"
+  }
+  set {
+      name = "global.postgresql.auth.password"
+      value = "${var.postgres_newuser_password}"
+  }
 }
