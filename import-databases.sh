@@ -13,9 +13,10 @@ kubectl cp ${databasedir}/* postgres/${POD}:${PVDIR}/import/
 for tar in $(ls ${databasedir} |grep .tar); do
   DB=$(echo ${tar} |sed 's/.tar//')
   DB=$(echo ${DB} | awk '{print tolower($0)}')
+  kubectl cp ${databasedir}/${tar} postgres/${POD}:${PVDIR}/import/${tar}
   kubectl exec -n postgres ${POD} -- bash -c "export PGUSER=${PGUSER}; \
   export PGPASSWORD=${PGPASSWORD}; \
-  pqsl -c 'DROP DATABASE IF EXISTS ${DB};'; \
+  psql -c 'DROP DATABASE IF EXISTS ${DB};'; \
   psql -c 'CREATE DATABASE ${DB};'; \
   pg_restore -d ${DB} -v ${PVDIR}/import/${tar}"
 done
