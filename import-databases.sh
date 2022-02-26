@@ -4,8 +4,10 @@ databasedir="${basedir}/databases"
 
 POD=$(kubectl get pod -n postgres --no-headers | awk '{print $1}')
 PVDIR=$(kubectl exec -n postgres ${POD} -- env | grep POSTGRESQL_VOLUME_DIR | awk -F = '{print $NF}')
-PGPASSWORD=$(kubectl exec -n postgres ${POD} -- env | grep POSTGRESQL_PASSWORD | awk -F = '{print $NF}')
-PGUSER=$(kubectl exec -n postgres ${POD} -- env | grep POSTGRESQL_USER | awk -F = '{print $NF}')
+PGPASSWORD=$(kubectl exec -n postgres ${POD} -- env | grep "POSTGRES_POSTGRES_PASSWORD" | awk -F = '{print $NF}')
+PGUSER="postgres"
+#PGPASSWORD=$(kubectl exec -n postgres ${POD} -- env | grep "^POSTGRES_PASSWORD" | awk -F = '{print $NF}')
+#PGUSER=$(kubectl exec -n postgres ${POD} -- env | grep POSTGRES_USER | awk -F = '{print $NF}')
 
 kubectl exec -n postgres ${POD} -- mkdir ${PVDIR}/import
 kubectl cp ${databasedir}/* postgres/${POD}:${PVDIR}/import/
