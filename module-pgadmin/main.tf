@@ -7,14 +7,14 @@ provider "kubernetes" {
 resource "kubernetes_namespace" "pgadmin" {
   count = var.pgadmin_namespace != "default" ? 1 : 0
   metadata {
-    name = "${var.pgadmin_namespace}"
+    name = var.pgadmin_namespace
   }
 }
 
 resource "kubernetes_deployment" "pgadmin" {
   metadata {
-    name = "pgadmin"
-    namespace = "${var.pgadmin_namespace}"
+    name      = "pgadmin"
+    namespace = var.pgadmin_namespace
     labels = {
       app = "pgadmin"
     }
@@ -34,15 +34,15 @@ resource "kubernetes_deployment" "pgadmin" {
       }
       spec {
         container {
-          image = "${var.pgadmin_image}"
+          image = var.pgadmin_image
           name  = "pgadmin"
           env {
-            name = "PGADMIN_DEFAULT_EMAIL"
-            value = "${var.pgadmin_email}"
+            name  = "PGADMIN_DEFAULT_EMAIL"
+            value = var.pgadmin_email
           }
           env {
-            name = "PGADMIN_DEFAULT_PASSWORD"
-            value = "${var.pgadmin_password}"
+            name  = "PGADMIN_DEFAULT_PASSWORD"
+            value = var.pgadmin_password
           }
         }
       }
@@ -53,16 +53,16 @@ resource "kubernetes_deployment" "pgadmin" {
 
 resource "kubernetes_service" "pgadmin" {
   metadata {
-    name = "pgadmin"
-    namespace = "${var.pgadmin_namespace}"
+    name      = "pgadmin"
+    namespace = var.pgadmin_namespace
   }
   spec {
     selector = {
       app = "pgadmin"
     }
     port {
-      port        = "${var.pgadmin_port}"
-      target_port = "${var.pgadmin_port}"
+      port        = var.pgadmin_port
+      target_port = var.pgadmin_port
     }
     type = "ClusterIP"
   }
@@ -71,20 +71,20 @@ resource "kubernetes_service" "pgadmin" {
 
 resource "kubernetes_ingress_v1" "pgadmin" {
   metadata {
-    name = "pgadmin"
-    namespace = "${var.pgadmin_namespace}"
+    name      = "pgadmin"
+    namespace = var.pgadmin_namespace
   }
   spec {
     ingress_class_name = "nginx"
     rule {
-      host = "${var.pgadmin_ingress_hostname}"
+      host = var.pgadmin_ingress_hostname
       http {
         path {
           backend {
             service {
               name = "pgadmin"
               port {
-                number = "${var.pgadmin_port}"
+                number = var.pgadmin_port
               }
             }
           }
